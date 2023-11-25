@@ -1,0 +1,6 @@
+
+
+
+installable_programs = {
+    "Deanon"
+}
