@@ -14,19 +14,20 @@ red = Fore.RED
 green = Fore.GREEN
 black = Fore.BLACK
 reset = Style.RESET_ALL
-password_input = inline.input
+inl_input = inline.input
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
     while True:
+        commands = ["debug", "global_vars", "dir", "mkdir", "rmdir", "cd", "cls", "python", "pip", "jds"]
         current_dir = os.getcwd()
         username = getpass.getuser()
 
         print(f'\n@{username} ~ {current_dir}')
         if configs.is_debug:
-            user_input = input(f" {red}${reset}> ")
+            user_input = inl_input(f" {red}${reset}> ", )
         else:
-            user_input = input(f" $> ")
+            user_input = inl_input(f" $> ", command=commands)
 
         if not user_input:
             continue
@@ -36,7 +37,7 @@ def main():
         arguments = parts[1] if len(parts) > 1 else ''
 
         if command == 'debug':
-            password = password_input('Enter passwrod: ', secret=True)
+            password = inl_input('Enter passwrod: ', secret=True)
             if password == configs.password:
                 if configs.is_debug == False:
                     configs.is_debug = True
@@ -69,7 +70,6 @@ def main():
             execute_custom_command(command_name, command_arguments, show_all_prefixes)
         else:
             print(f"Unknown command: {command}")
-
 
 if __name__ == "__main__":
     main()

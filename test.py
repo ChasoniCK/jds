@@ -1,5 +1,6 @@
-global_vars = {'key1': 'value1', 'key2': 'value2', 'key3': 'value3'}
+import inline #Import inline module
+input = inline.input #replace default input
 
-# Вывести словарь без кавычек вокруг ключей
-for key, value in global_vars.items():
-    print(f'{key}: {value}')
+commands = ["Info", "Help", "Version"]
+
+answer = input(command=commands)
