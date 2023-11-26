@@ -1,7 +1,11 @@
 import os
-import subprocess
+import getpass
 from colorama import init, Fore, Style
 from mainFiles.main_commands import *
+import mainFiles.configs as configs
+import mainFiles.global_var as gv
+import inline
+
 
 init()
 
@@ -10,13 +14,20 @@ red = Fore.RED
 green = Fore.GREEN
 black = Fore.BLACK
 reset = Style.RESET_ALL
-
-
+password_input = inline.input
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
     while True:
-        user_input = input("$> ")
+        current_dir = os.getcwd()
+        username = getpass.getuser()
+
+        print(f'\n@{username} ~ {current_dir}')
+        if configs.is_debug:
+            user_input = input(f" {red}${reset}> ")
+        else:
+            user_input = input(f" $> ")
+
         if not user_input:
             continue
 
@@ -24,7 +35,19 @@ def main():
         command = parts[0].lower()
         arguments = parts[1] if len(parts) > 1 else ''
 
-        if command == 'dir':
+        if command == 'debug':
+            password = password_input('Enter passwrod: ', secret=True)
+            if password == configs.password:
+                if configs.is_debug == False:
+                    configs.is_debug = True
+                else:
+                    configs.is_debug = False
+            else:
+                print(red + "Incorrect password" + reset)
+        elif command == 'global_vars':
+            for key, value in gv.global_vars.items():
+                print(f'{key}: {value}')
+        elif command == 'dir':
             dir(arguments)
         elif command == 'mkdir':
             mkdir(arguments)

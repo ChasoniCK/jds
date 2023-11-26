@@ -1,7 +1,8 @@
-import os
+import os, getpass
 import json
 import subprocess
 from colorama import init, Fore, Style
+import mainFiles.configs as configs
 
 init()
 
@@ -11,9 +12,6 @@ green = Fore.GREEN
 black = Fore.BLACK
 reset = Style.RESET_ALL
 
-with open('mainFiles/settings.json', 'r') as file:
-    settings = json.load(file)
-is_debug = settings.get('isDebug', None)
 
 def run_command(command):
     try:
@@ -54,8 +52,8 @@ def execute_custom_command(command_name, arguments, show_all_prefixes=False):
                 else:
                     print("Command has no prefixes.")
         else:
-            if is_debug:
-                print(f' {green}[I]{reset}\n  ╰─{black}$path{reset} {command_path}\n')
+            if configs.is_debug:
+                print(f' ╰─{black} $path{reset} {command_path}\n')
 
             run_command(f"python {command_path} {arguments}")
     else:
